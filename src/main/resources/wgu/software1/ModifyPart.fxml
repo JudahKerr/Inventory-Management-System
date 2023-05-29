@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.software1.ModifyPartController">
+   <children>
+      <Label layoutX="298.0" layoutY="14.0" text="Modify Part">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Group layoutX="103.0" layoutY="73.0" AnchorPane.leftAnchor="103.0" AnchorPane.rightAnchor="83.4921875">
+         <children>
+            <RadioButton layoutX="357.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" selected="true" text="In-House">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </RadioButton>
+            <RadioButton layoutX="357.0" layoutY="55.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="114.0" text="Outsourced">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </RadioButton>
+            <Label prefHeight="17.0" prefWidth="58.0" text="ID">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutY="55.0" prefHeight="17.0" prefWidth="58.0" text="Name">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutY="110.0" prefHeight="25.0" prefWidth="100.0" text="Inventory">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutY="165.0" prefHeight="25.0" prefWidth="100.0" text="Price/Cost">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutY="220.0" prefHeight="25.0" prefWidth="100.0" text="Min">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutY="275.0" prefHeight="25.0" prefWidth="100.0" text="Machine ID">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField disable="true" editable="false" layoutX="100.0" promptText="Auto Generated" />
+            <TextField layoutX="100.0" layoutY="55.0" />
+            <TextField layoutX="100.0" layoutY="110.0" />
+            <TextField layoutX="100.0" layoutY="165.0" />
+            <TextField layoutX="100.0" layoutY="220.0" />
+            <TextField layoutX="100.0" layoutY="275.0" />
+            <Label layoutX="275.0" layoutY="220.0" prefHeight="25.0" prefWidth="58.0" text="Max">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="325.0" layoutY="220.0" />
+            <Button layoutX="100.0" layoutY="330.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="65.0" text="Save" />
+            <Button layoutX="325.0" layoutY="330.0" mnemonicParsing="false" onAction="#onCancelClick" prefHeight="30.0" prefWidth="75.0" text="Cancel" />
+         </children>
+      </Group>
+   </children>
+</AnchorPane>
