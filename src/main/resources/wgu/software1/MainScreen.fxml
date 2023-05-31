@@ -69,18 +69,18 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TableView layoutX="646.0" layoutY="225.0" prefHeight="326.0" prefWidth="509.0">
+            <TableView fx:id="productsTable" layoutX="646.0" layoutY="225.0" prefHeight="326.0" prefWidth="509.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Product ID" />
-                  <TableColumn prefWidth="75.0" text="Product Name" />
-                  <TableColumn prefWidth="75.0" text="Inventory Level" />
-                  <TableColumn prefWidth="75.0" text="Price/Cost Per Unit" />
+                  <TableColumn fx:id="productIDColumn" prefWidth="75.0" text="Product ID" />
+                  <TableColumn fx:id="productNameColumn" prefWidth="75.0" text="Product Name" />
+                  <TableColumn fx:id="productInventoryColumn" prefWidth="75.0" text="Inventory Level" />
+                  <TableColumn fx:id="productPriceColumn" prefWidth="75.0" text="Price/Cost Per Unit" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TextArea cacheShape="false" layoutX="44.0" layoutY="560.0" prefHeight="0.0" prefWidth="195.0" promptText="Search by Part ID or Name" />
+            <TextArea fx:id="partsSearchField" cacheShape="false" layoutX="44.0" layoutY="560.0" onKeyTyped="#onPartsSearch" prefHeight="0.0" prefWidth="195.0" promptText="Search by Part ID or Name" />
             <TextArea cacheShape="false" layoutX="646.0" layoutY="560.0" prefHeight="0.0" prefWidth="195.0" promptText="Search by Product ID or Name" />
             <Button layoutX="266.0" layoutY="560.0" mnemonicParsing="false" onAction="#onAddPartClick" prefHeight="37.0" prefWidth="69.0" text="Add" />
             <Button layoutX="376.0" layoutY="560.0" mnemonicParsing="false" onAction="#onModifyPartClick" prefHeight="37.0" prefWidth="69.0" text="Modify" />

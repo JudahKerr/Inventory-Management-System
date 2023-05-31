@@ -21,19 +21,22 @@ public class AddPartController {
     @FXML private Label machineText;
 
 
-
+    private Boolean isOutsourced = false;
    public void onSaveClick(ActionEvent event) throws IOException {
        try {
            // Random number for ID
-           int randomNum = (int)(Math.random() * 100);
+           int randomNum = (int)(Math.random() * 1000);
 
            // Parsing the text-fields
            String name = nameField.getText();
            int inventory = Integer.parseInt(inventoryField.getText());
            double price = Double.parseDouble(priceField.getText());
-
+           int min = Integer.parseInt(minField.getText());
+           int max = Integer.parseInt(maxField.getText());
+           String machineID = machineField.getText();
+           Boolean machineType = isOutsourced;
            // Adding the part to the PartsList
-           Part newPart = new Part(randomNum, name, inventory, price);
+           Part newPart = new Part(randomNum, name, inventory, price, min, max, machineID, machineType);
            PartsList.addPart(newPart);
 
            //Back to MainScreen
@@ -59,9 +62,11 @@ public class AddPartController {
     // Changing the Label based on the radio buttons
     @FXML public void outsourcedRadioClick(ActionEvent event) throws IOException {
        machineText.setText("Company Name");
+        isOutsourced = true;
     }
     @FXML public void houseRadioClick(ActionEvent event) throws IOException {
         machineText.setText("Machine ID");
+        isOutsourced = false;
     }
 
     public void toMainScreen(Stage stage) throws IOException {

@@ -10,6 +10,10 @@ public class PartsList {
         partsList.add(part);
     }
 
+    public static void removePart(Part part) {
+        partsList.remove(part);
+    }
+
     public static ObservableList<Part> getPartsList() {
         return partsList;
     }

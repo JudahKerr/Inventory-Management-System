@@ -1,12 +1,15 @@
 package wgu.software1;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override
@@ -20,11 +23,27 @@ public class HelloApplication extends Application {
 
     // Adding Test Data when the application launches
     private static void addTestData() {
-        Part test = new Part(1, "Schwinn Tire", 3, 4.99);
-        PartsList.addPart(test);
-        PartsList.addPart(new Part(2, "Screw Bracket", 6, 14.99));
-        PartsList.addPart(new Part(3, "Headlight", 26, 7.99));
+        // Adding Parts
+        PartsList.addPart(new Part(1, "Schwinn Tire", 3, 4.99, 1, 10, "Schwinn", false));
+        PartsList.addPart(new Part(2, "Kayak Shell", 6, 14.99, 1, 1000, "ACME", false));
+        PartsList.addPart(new Part(3, "Headlight", 26, 7.99, 1, 25, "Schwinn", false));
+        PartsList.addPart(new Part(4, "Carbon Fiber Paddle", 77, 12, 1, 10, "ACME", false));
+        PartsList.addPart(new Part(5, "Bike Blinkers", 45, 29.99, 1, 1000, "Schwinn", false));
+        PartsList.addPart(new Part(6, "Basket", 42, 12.99, 1, 25, "Schwinn", false));
 
+        // Adding Products
+        ObservableList<Part> bikeList = FXCollections.observableArrayList();
+        bikeList.add(new Part(1, "Schwinn Tire", 3, 4.99, 1, 10, "Schwinn", false));
+        bikeList.add(new Part(3, "Headlight", 26, 7.99, 1, 25, "Schwinn", false));
+        bikeList.add(new Part(6, "Basket", 42, 12.99, 1, 25, "Schwinn", false));
+
+        ObservableList<Part> kayakList = FXCollections.observableArrayList();
+        kayakList.add(new Part(2, "Kayak Shell", 6, 14.99, 1, 1000, "ACME", false));
+        kayakList.add(new Part(4, "Carbon Fiber Paddle", 77, 12, 1, 10, "ACME", false));
+
+
+        ProductList.addProduct(new Product(1, "Schwinn Bike", 12, 249.99, 1, 25, bikeList));
+        ProductList.addProduct(new Product(2, "Kayak Bundle", 7, 449.99, 1, 25, kayakList));
     }
 
     public static void main(String[] args) {
