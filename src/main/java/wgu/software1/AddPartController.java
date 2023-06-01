@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class AddPartController {
     @FXML private TextField nameField;
-    @FXML private TextField inventoryField;
+    @FXML private TextField stockField;
     @FXML private TextField priceField;
     @FXML private TextField minField;
     @FXML private TextField maxField;
@@ -22,22 +22,79 @@ public class AddPartController {
 
 
     private Boolean isOutsourced = false;
+
+    // Changing the Label based on the radio buttons
+    @FXML public void outsourcedRadioClick(ActionEvent event) throws IOException {
+        machineText.setText("Company Name");
+        isOutsourced = true;
+    }
+    @FXML public void houseRadioClick(ActionEvent event) throws IOException {
+        machineText.setText("Machine ID");
+        isOutsourced = false;
+    }
+
    public void onSaveClick(ActionEvent event) throws IOException {
        try {
            // Random number for ID
-           int randomNum = (int)(Math.random() * 1000);
+           int randomNum;
+           do {
+               randomNum = (int)(Math.random() * 1000);
+           } while (Inventory.lookupPart(randomNum) != null);
 
            // Parsing the text-fields
            String name = nameField.getText();
-           int inventory = Integer.parseInt(inventoryField.getText());
+           int stock = Integer.parseInt(stockField.getText());
            double price = Double.parseDouble(priceField.getText());
            int min = Integer.parseInt(minField.getText());
            int max = Integer.parseInt(maxField.getText());
-           String machineID = machineField.getText();
-           Boolean machineType = isOutsourced;
-           // Adding the part to the PartsList
-           Part newPart = new Part(randomNum, name, inventory, price, min, max, machineID, machineType);
-           PartsList.addPart(newPart);
+
+
+
+
+           if(name.length() == 0) {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setContentText("Name cannot be empty.");
+               alert.showAndWait();
+               return;
+           }
+
+           if(price < 0) {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setContentText("Price cannot be less than 0.");
+               alert.showAndWait();
+               return;
+           }
+
+           if(max < min || max < 0 || min < 0) {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setContentText("Max and Min values not valid");
+               alert.showAndWait();
+               return;
+           }
+
+           if(stock < 0){
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setContentText("Inventory cannot be less than 0.");
+               alert.showAndWait();
+               return;
+           }
+
+           // Adding the part to the Inventory
+           if(!isOutsourced) {
+               int machineID = Integer.parseInt(machineField.getText());
+               InHouse newPart = new InHouse(randomNum, name, stock, price, min, max, machineID);
+               Inventory.addPart(newPart);
+           } else {
+               String companyName = machineField.getText();
+               Outsourced newPart = new Outsourced(randomNum, name, stock, price, min, max, companyName);
+               Inventory.addPart(newPart);
+           }
+
+
 
            //Back to MainScreen
            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();  // Get the current stage
@@ -59,15 +116,7 @@ public class AddPartController {
         toMainScreen(stage);
     }
 
-    // Changing the Label based on the radio buttons
-    @FXML public void outsourcedRadioClick(ActionEvent event) throws IOException {
-       machineText.setText("Company Name");
-        isOutsourced = true;
-    }
-    @FXML public void houseRadioClick(ActionEvent event) throws IOException {
-        machineText.setText("Machine ID");
-        isOutsourced = false;
-    }
+
 
     public void toMainScreen(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainScreen.fxml"));

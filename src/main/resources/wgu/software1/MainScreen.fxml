@@ -62,7 +62,7 @@
               <columns>
                 <TableColumn fx:id="partsIDColumn" prefWidth="75.0" text="Part ID" />
                 <TableColumn fx:id="partsNameColumn" prefWidth="75.0" text="Part Name" />
-                  <TableColumn fx:id="partsInventoryColumn" prefWidth="75.0" text="Inventory Level" />
+                  <TableColumn fx:id="partsStockColumn" prefWidth="75.0" text="Inventory Level" />
                   <TableColumn fx:id="partsPriceColumn" prefWidth="75.0" text="Price/Cost Per Unit" />
               </columns>
                <columnResizePolicy>
@@ -73,7 +73,7 @@
                <columns>
                   <TableColumn fx:id="productIDColumn" prefWidth="75.0" text="Product ID" />
                   <TableColumn fx:id="productNameColumn" prefWidth="75.0" text="Product Name" />
-                  <TableColumn fx:id="productInventoryColumn" prefWidth="75.0" text="Inventory Level" />
+                  <TableColumn fx:id="productStockColumn" prefWidth="75.0" text="Inventory Level" />
                   <TableColumn fx:id="productPriceColumn" prefWidth="75.0" text="Price/Cost Per Unit" />
                </columns>
                <columnResizePolicy>
@@ -81,13 +81,13 @@
                </columnResizePolicy>
             </TableView>
             <TextArea fx:id="partsSearchField" cacheShape="false" layoutX="44.0" layoutY="560.0" onKeyTyped="#onPartsSearch" prefHeight="0.0" prefWidth="195.0" promptText="Search by Part ID or Name" />
-            <TextArea cacheShape="false" layoutX="646.0" layoutY="560.0" prefHeight="0.0" prefWidth="195.0" promptText="Search by Product ID or Name" />
+            <TextArea fx:id="productsSearchField" cacheShape="false" layoutX="646.0" layoutY="560.0" onKeyTyped="#onProductsSearch" prefHeight="0.0" prefWidth="195.0" promptText="Search by Product ID or Name" />
             <Button layoutX="266.0" layoutY="560.0" mnemonicParsing="false" onAction="#onAddPartClick" prefHeight="37.0" prefWidth="69.0" text="Add" />
             <Button layoutX="376.0" layoutY="560.0" mnemonicParsing="false" onAction="#onModifyPartClick" prefHeight="37.0" prefWidth="69.0" text="Modify" />
-            <Button fx:id="DeleteButton" layoutX="484.0" layoutY="560.0" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="37.0" prefWidth="69.0" text="Delete" />
+            <Button fx:id="DeleteButton" layoutX="484.0" layoutY="560.0" mnemonicParsing="false" onAction="#onPartDeleteClick" prefHeight="37.0" prefWidth="69.0" text="Delete" />
             <Button layoutX="866.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddProductClick" prefHeight="37.0" prefWidth="69.0" text="Add" />
             <Button layoutX="980.0" layoutY="560.0" mnemonicParsing="false" onAction="#onModifyProductClick" prefHeight="37.0" prefWidth="69.0" text="Modify" />
-            <Button layoutX="1086.0" layoutY="561.0" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="37.0" prefWidth="69.0" text="Delete" />
+            <Button layoutX="1086.0" layoutY="561.0" mnemonicParsing="false" onAction="#onProductDeleteClick" prefHeight="37.0" prefWidth="69.0" text="Delete" />
             <Button layoutX="553.0" layoutY="676.0" mnemonicParsing="false" onAction="#onExitClick" prefHeight="37.0" prefWidth="94.0" text="Exit" />
             <Label layoutX="525.0" layoutY="81.0" text="Made by Judah Kerr">
                <font>

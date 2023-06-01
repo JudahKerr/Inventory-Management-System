@@ -13,7 +13,7 @@ public class ModifyPartController {
 
     @FXML public TextField idField;
     @FXML public TextField nameField;
-    @FXML public TextField inventoryField;
+    @FXML public TextField stockField;
     @FXML public TextField priceField;
     @FXML public TextField minField;
     @FXML public TextField maxField;
@@ -38,12 +38,28 @@ public class ModifyPartController {
 
             // Parsing the text-fields
             String name = nameField.getText();
-            int inventory = Integer.parseInt(inventoryField.getText());
+            int stock = Integer.parseInt(stockField.getText());
             double price = Double.parseDouble(priceField.getText());
             int min = Integer.parseInt(minField.getText());
             int max = Integer.parseInt(maxField.getText());
-            String machineID = machineField.getText();
-            Boolean machineType = isOutsourced;
+
+
+
+            if(name.length() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Name cannot be empty.");
+                alert.showAndWait();
+                return;
+            }
+
+            if(price < 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Price cannot be less than 0.");
+                alert.showAndWait();
+                return;
+            }
 
             if(max < min || max < 0 || min < 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -53,10 +69,26 @@ public class ModifyPartController {
                 return;
             }
 
-            // Adding the part to the PartsList
-            Part newPart = new Part(id, name, inventory, price, min, max, machineID, machineType);
-            PartsList.addPart(newPart); // Adding the new part
-            PartsList.removePart(selectedPart); // Deleting the old part
+            if(stock < 0){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Inventory cannot be less than 0.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Adding the part to the Inventory
+            if(!isOutsourced) {
+                int machineID = Integer.parseInt(machineField.getText());
+                InHouse newPart = new InHouse(id, name, stock, price, min, max, machineID);
+                Inventory.addPart(newPart);
+            } else {
+                String companyName = machineField.getText();
+                Outsourced newPart = new Outsourced(id, name, stock, price, min, max, companyName);
+                Inventory.addPart(newPart);
+            }
+
+            Inventory.deletePart(selectedPart); // Deleting the old part
             //Back to MainScreen
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();  // Get the current stage
             toMainScreen(stage);
@@ -99,17 +131,23 @@ public class ModifyPartController {
 
         idField.setText(String.valueOf(selectedPart.getID()));
         nameField.setText(selectedPart.getName());
-        inventoryField.setText(String.valueOf(selectedPart.getInventory()));
+        stockField.setText(String.valueOf(selectedPart.getStock()));
         priceField.setText(String.valueOf(selectedPart.getPrice()));
         minField.setText(String.valueOf(selectedPart.getMin()));
         maxField.setText(String.valueOf(selectedPart.getMax()));
-        machineField.setText(selectedPart.getMachineID());
-
-        if(selectedPart.isMachineType()) {
-            outsourcedRadio.setSelected(true);
-        } else {
+        if (selectedPart instanceof InHouse) {
+            machineText.setText("Machine ID");
+            String machineID = String.valueOf(((InHouse) selectedPart).getMachineId());
+            machineField.setText(machineID);
             inHouseRadio.setSelected(true);
+        } else if (selectedPart instanceof  Outsourced) {
+            machineText.setText("Company Name");
+            machineField.setText(((Outsourced) selectedPart).getCompanyName());
+            outsourcedRadio.setSelected(true);
         }
+
+//
+//
 
     }
 }

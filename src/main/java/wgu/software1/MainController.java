@@ -19,20 +19,22 @@ import java.util.ResourceBundle;
 public class MainController {
 
     // Assigning the Parts Table and Columns
-    @FXML public TableView partsTable;
-    @FXML public TableColumn partsIDColumn;
-    @FXML public TableColumn partsNameColumn;
-    @FXML public TableColumn partsInventoryColumn;
-    @FXML public TableColumn partsPriceColumn;
+    @FXML public TableView<Part> partsTable;
+    @FXML public TableColumn<Part, Integer> partsIDColumn;
+    @FXML public TableColumn<Part, String> partsNameColumn;
+    @FXML public TableColumn<Part, Integer> partsStockColumn;
+    @FXML public TableColumn<Part, Double> partsPriceColumn;
     @FXML public TextArea partsSearchField;
 
     // Assigning the Product Table and Columns
-    @FXML public TableView productsTable;
+    @FXML public TableView<Product> productsTable;
 
-    @FXML public TableColumn productIDColumn;
-    @FXML public TableColumn productNameColumn;
-    @FXML public TableColumn productInventoryColumn;
-    @FXML public TableColumn productPriceColumn;
+    @FXML public TableColumn<Product, Integer> productIDColumn;
+    @FXML public TableColumn<Product, String> productNameColumn;
+    @FXML public TableColumn<Product, Integer> productStockColumn;
+    @FXML public TableColumn<Product, Double> productPriceColumn;
+
+    @FXML public TextArea productsSearchField;
 
 
 
@@ -64,19 +66,33 @@ public class MainController {
 
     }
 
+
+
    @FXML protected void onAddProductClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();  // Get the current stage
         toAddProduct(stage);  // Pass stage to toSecond method
     }
 
     @FXML public void onModifyProductClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();  // Get the current stage
-        toModifyProduct(stage);  // Pass stage to toSecond method
+
+        Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
+
+        //  If nothing selected throw up an error
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No product selected to modify.");
+            alert.showAndWait();
+        } else {
+            ModifyProductController.getProduct(selectedProduct);
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();  // Get the current stage
+            toModifyProduct(stage);  // Pass stage to toSecond method
+        }
 
     }
 
     @FXML
-    public void onDeleteClick(ActionEvent event) throws IOException {
+    public void onPartDeleteClick(ActionEvent event) throws IOException {
 
         //  Assigning an object to the selected item in the parts table
         Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
@@ -98,14 +114,45 @@ public class MainController {
                 }
             });
         }
+    }
 
+    @FXML
+    public void onProductDeleteClick(ActionEvent event) throws IOException {
 
+        //  Assigning an object to the selected item in the parts table
+        Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
 
+        //  If nothing selected throw up an error
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No part selected for deletion.");
+            alert.showAndWait();
+        } else {
+            //  Confirming the delete
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete");
+            alert.setContentText("Please confirm you want to delete this item.");
+            alert.showAndWait().ifPresent(result -> {
+                if (result == ButtonType.OK) {
+                    productsTable.getItems().remove(selectedProduct); // Removing selection from the partsTable list
+                }
+            });
+        }
     }
 
     @FXML protected void onExitClick(ActionEvent event) throws IOException {
-        Platform.exit();
-    }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit");
+        alert.setContentText("Are you sure you want to exit?");
+        alert.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.OK) {
+                Platform.exit();
+            }
+        });}
+
+
 
     public void toAddPart(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddPart.fxml"));
@@ -141,7 +188,7 @@ public class MainController {
 
     public void onPartsSearch(KeyEvent event) throws IOException {
         ObservableList<Part> searchedParts = FXCollections.observableArrayList();
-        ObservableList<Part> allParts = PartsList.getPartsList();
+        ObservableList<Part> allParts = Inventory.getAllParts();
         String userInput = partsSearchField.getText().toLowerCase();
         int idSearch = -1;
 
@@ -164,21 +211,46 @@ public class MainController {
 
     }
 
+    public void onProductsSearch(KeyEvent event) throws IOException {
+        ObservableList<Product> searchedParts = FXCollections.observableArrayList();
+        ObservableList<Product> allParts = Inventory.getAllProducts();
+        String userInput = productsSearchField.getText().toLowerCase();
+        int idSearch = -1;
+
+        // Check if the userInput can be parsed to an integer
+        try {
+            idSearch = Integer.parseInt(userInput);
+        } catch(NumberFormatException e) {
+            // userInput is not an integer
+        }
+
+        for(Product i : allParts){
+            if(i.getName().toLowerCase().contains(userInput)){
+                searchedParts.add(i);
+            } else if (i.getID() == idSearch){
+                searchedParts.add(i);
+            }
+        }
+
+        productsTable.setItems(searchedParts);
+
+    }
+
     public void initialize() {
         System.out.println("Program started.");
 
         // Setting parts for the Parts Table
-        partsTable.setItems(PartsList.getPartsList());
+        partsTable.setItems(Inventory.getAllParts());
         partsIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         partsNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partsInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("inventory"));
+        partsStockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partsPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Setting Products for the Products Table
-        productsTable.setItems(ProductList.getProductsList());
+        productsTable.setItems(Inventory.getAllProducts());
         productIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("inventory"));
+        productStockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 }

@@ -7,7 +7,7 @@ public class Product {
     private int id;
     private String name;
 
-    private int inventory;
+    private int stock;
 
     private Double price;
 
@@ -15,19 +15,46 @@ public class Product {
 
     private int max;
 
-    private static ObservableList<Part> partListProducts = FXCollections.observableArrayList();
+    private  ObservableList<Part> partListProducts = FXCollections.observableArrayList();
 
 
-    public Product(int id, String name, int inventory, double price, int min, int max, ObservableList partListProducts) {
+    public Product(int id, String name, int stock, double price, int min, int max, ObservableList partListProducts) {
         this.id = id;
         this.name = name;
-        this.inventory = inventory;
+        this.stock = stock;
         this.price = price;
         this.min = min;
         this.max = max;
         this.partListProducts = partListProducts;
     }
 
+    // Setters
+    public void setID(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+
+    // Getters
     public int getID() {
         return id;
     }
@@ -36,8 +63,8 @@ public class Product {
         return name;
     }
 
-    public int getInventory() {
-        return inventory;
+    public int getStock() {
+        return stock;
     }
 
     public double getPrice() {
@@ -50,7 +77,15 @@ public class Product {
         return max;
     }
 
-    public static ObservableList<Part> getPartListProducts() {
+    public ObservableList<Part> getPartListProducts() {
         return partListProducts;
+    }
+
+    public void addAssociatedPart(Part part) {
+        this.partListProducts.add(part);
+    }
+
+    public void deleteAssociatedPart(Part part) {
+        this.partListProducts.remove(part);
     }
 }

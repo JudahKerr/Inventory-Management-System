@@ -56,7 +56,7 @@
             </Label>
             <TextField disable="true" editable="false" layoutX="100.0" promptText="Auto Generated" />
             <TextField fx:id="nameField" layoutX="100.0" layoutY="55.0" />
-            <TextField fx:id="inventoryField" layoutX="100.0" layoutY="110.0" />
+            <TextField fx:id="stockField" layoutX="100.0" layoutY="110.0" />
             <TextField fx:id="priceField" layoutX="100.0" layoutY="165.0" />
             <TextField fx:id="minField" layoutX="100.0" layoutY="220.0" />
             <TextField fx:id="machineField" layoutX="100.0" layoutY="275.0" />
